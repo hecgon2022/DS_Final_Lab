@@ -13,16 +13,16 @@ y = labels_df['outcome']
 
 # Prepare the models
 models = {
-    'logistic_regression': LogisticRegression(penalty='l1', solver='liblinear', random_state=19),
-    'gradient_boosting': GradientBoostingClassifier(random_state=19),
+    'logistic_regression': LogisticRegression(penalty='l1', solver='liblinear', random_state=19, n_jobs=4),
+    'gradient_boosting': GradientBoostingClassifier(random_state=19, n_iter_no_change=4),
     'adaboost': AdaBoostClassifier(random_state=19),
-    'catboost': CatBoostClassifier(silent=True),
-    'xgboost': XGBClassifier(use_label_encoder=False, eval_metric='logloss'),
+    'catboost': CatBoostClassifier(silent=True, thread_count=4),
+    'xgboost': XGBClassifier(use_label_encoder=False, eval_metric='logloss', n_jobs=4),
 }
 
 # Add the voting classifier
 voting_classifier = VotingClassifier(
-    estimators=[(name, model) for name, model in models.items()], voting='hard'
+    estimators=[(name, model) for name, model in models.items()], voting='hard', n_jobs=4
 )
 models['voting_classifier'] = voting_classifier
 

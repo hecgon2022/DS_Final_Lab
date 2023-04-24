@@ -19,8 +19,8 @@ sns.barplot(x='value', y='file', hue='model', data=melted_df, ci=None, orient='h
 plt.title('Model Performance Comparison by Accuracy')
 plt.xlabel('Metric Value')
 plt.ylabel('File')
-plt.legend(title='Models', loc='lower right')
-plt.xlim(0.5, None)  # Set the x-axis starting point to 0.5
+plt.legend(title='Models', loc='best')
+plt.xlim(0.6, None)  # Set the x-axis starting point to 0.5
 
 # Show the plot
 plt.show()

@@ -1,6 +1,7 @@
 import os
 import pandas as pd
-from sklearn.metrics import roc_auc_score, accuracy_score
+import pickle
+from sklearn.metrics import roc_auc_score, accuracy_score, roc_curve
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import GradientBoostingClassifier, AdaBoostClassifier, VotingClassifier, StackingClassifier
 from catboost import CatBoostClassifier
@@ -56,15 +57,18 @@ for file in os.listdir('data/permutations'):
 
             auc = roc_auc_score(y_test, y_pred_proba) if y_pred_proba is not None else None
             accuracy = accuracy_score(y_test, y_pred)
+            fpr, tpr, _ = roc_curve(y_test, y_pred_proba) if y_pred_proba is not None else (None, None, None)
 
             results.append({
                 'file': file,
                 'model': model_name,
                 'auc_score': auc,
                 'accuracy': accuracy,
+                'fpr': fpr,
+                'tpr': tpr
             })
 
 # Output the results
 results_df = pd.DataFrame(results)
-results_df.to_csv('permutation_results.csv', index=False)
+results_df.to_pickle('permutation_results.pkl')
 print(results_df)

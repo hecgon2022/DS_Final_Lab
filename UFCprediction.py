@@ -35,7 +35,7 @@ models['voting_classifier'] = voting_classifier
 
 stacking_classifier = StackingClassifier(
     estimators=[(name, model) for name, model in models.items() if name != 'voting_classifier'], 
-    final_estimator=GradientBoostingClassifier(random_state=19, n_iter_no_change=4),
+    final_estimator=GradientBoostingClassifier(learning_rate=0.01,max_depth=3,n_estimators=100,random_state=19, n_iter_no_change=4),
     n_jobs=4
 )
 models['stacking_classifier'] = stacking_classifier
@@ -43,7 +43,7 @@ models['stacking_classifier'] = stacking_classifier
 # Iterate through the CSV files in the 'permutations' folder
 results = []
 for file in os.listdir('data/permutations'):
-    if file.endswith('.csv'):
+    if file.endswith('add_win_rate_6.csv'):
         # Load the data
         data_path = os.path.join('data/permutations', file)
         X = pd.read_csv(data_path)
@@ -60,6 +60,10 @@ for file in os.listdir('data/permutations'):
             auc = roc_auc_score(y_test, y_pred_proba) if y_pred_proba is not None else None
             accuracy = accuracy_score(y_test, y_pred)
             fpr, tpr, _ = roc_curve(y_test, y_pred_proba) if y_pred_proba is not None else (None, None, None)
+            
+            f_name = "data/new_models/" + model_name +".pkl"
+            with open(f_name, 'wb') as f:
+                pickle.dump(model, f)
 
             results.append({
                 'file': file,
@@ -72,5 +76,5 @@ for file in os.listdir('data/permutations'):
 
 # Output the results
 results_df = pd.DataFrame(results)
-results_df.to_pickle('permutation_results.pkl')
+# results_df.to_pickle('permutation_results.pkl')
 print(results_df)

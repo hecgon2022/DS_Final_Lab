@@ -7,6 +7,10 @@ from catboost import CatBoostClassifier
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
 
+#grid search
+#roc_curve
+#report
+
 # Load the labels
 labels_df = pd.read_csv('data/processed/processed_data_labels.csv')
 y = labels_df['label']

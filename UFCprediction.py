@@ -8,8 +8,8 @@ from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
 
 # Load the labels
-labels_df = pd.read_csv('processed_data_labels.csv')
-y = labels_df['outcome']
+labels_df = pd.read_csv('data/processed/processed_data_labels.csv')
+y = labels_df['label']
 
 # Prepare the models
 models = {
@@ -28,10 +28,10 @@ models['voting_classifier'] = voting_classifier
 
 # Iterate through the CSV files in the 'permutations' folder
 results = []
-for file in os.listdir('permutations'):
+for file in os.listdir('data/permutations'):
     if file.endswith('.csv'):
         # Load the data
-        data_path = os.path.join('permutations', file)
+        data_path = os.path.join('data/permutations', file)
         X = pd.read_csv(data_path)
 
         # Split the data into train and test sets
@@ -55,4 +55,5 @@ for file in os.listdir('permutations'):
 
 # Output the results
 results_df = pd.DataFrame(results)
+results_df.to_csv('permutation_results.csv', index=False)
 print(results_df)

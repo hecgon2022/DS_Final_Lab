@@ -2,7 +2,7 @@ import os
 import pandas as pd
 from sklearn.metrics import roc_auc_score, accuracy_score
 from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import GradientBoostingClassifier, AdaBoostClassifier, VotingClassifier
+from sklearn.ensemble import GradientBoostingClassifier, AdaBoostClassifier, VotingClassifier, StackingClassifier
 from catboost import CatBoostClassifier
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
@@ -25,6 +25,13 @@ voting_classifier = VotingClassifier(
     estimators=[(name, model) for name, model in models.items()], voting='hard', n_jobs=4
 )
 models['voting_classifier'] = voting_classifier
+
+stacking_classifier = StackingClassifier(
+    estimators=[(name, model) for name, model in models.items() if name != 'voting_classifier'], 
+    final_estimator=GradientBoostingClassifier(random_state=19, n_iter_no_change=4),
+    n_jobs=4
+)
+models['stacking_classifier'] = stacking_classifier
 
 # Iterate through the CSV files in the 'permutations' folder
 results = []

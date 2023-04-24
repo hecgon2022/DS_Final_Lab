@@ -1,6 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
+#Shows all ROC curve graphs per file for each model one by one
+
 # Load the results from the pickle file
 results_df = pd.read_pickle('permutation_results.pkl')
 

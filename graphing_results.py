@@ -2,6 +2,8 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+# shows bar graphs of every file with every model given
+
 # Read the data from the CSV file
 results_df = pd.read_csv('permutation_results.csv')
 

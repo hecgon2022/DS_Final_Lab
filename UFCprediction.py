@@ -8,10 +8,6 @@ from catboost import CatBoostClassifier
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
 
-#grid search
-#roc_curve
-#report
-
 #Trains, tests, and saves data of all the models throughout all the csv files in permutations folder
 
 # Load the labels
